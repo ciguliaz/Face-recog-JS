@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Client-Side Attention Monitor</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+	<h1>Client-Side Attention Monitor</h1>
+
+	<div class="container">
+		<div id="loading-indicator">Loading Model and Camera...</div>
+		<!-- Video element to display webcam stream -->
+		<video id="input-video" autoplay muted playsinline></video>
+		<!-- Canvas element for potential drawing or frame capture -->
+		<canvas id="output-canvas" width="640px" height="480px"></canvas>
+	</div>
+
+	<!-- MediaPipe Files -->
+	<!-- It's often better to host these yourself or use a bundler like Webpack/Vite,
+        but for simplicity, we'll use the CDN links directly for now. -->
+	<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+
+	<!-- Your custom script -->
+	<script src="script.js"></script>
+</body>
+
+</html>

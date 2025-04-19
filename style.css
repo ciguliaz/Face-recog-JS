@@ -1,0 +1,47 @@
+body {
+	font-family: sans-serif;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.container {
+	position: relative;
+	/* Needed for absolute positioning of canvas */
+	width: 640px;
+	height: 480px;
+	border: 1px solid black;
+	/* Optional: just to see the container */
+}
+
+#input-video {
+	display: block;
+	/* Or display: none; if you want it hidden */
+	width: 100%;
+	height: 100%;
+	/* Flip the video horizontally for a mirror effect (more natural) */
+	transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+}
+
+#output-canvas {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	/* display: none; /* Uncomment if you don't want to draw overlays */
+}
+
+#loading-indicator {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 1.2em;
+	background-color: rgba(255, 255, 255, 0.8);
+	padding: 10px;
+	border-radius: 5px;
+	z-index: 10;
+	/* Ensure it's above other elements */
+}
