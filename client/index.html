@@ -9,13 +9,34 @@
 </head>
 
 <body>
-	<h1>Client-Side Attention Monitor</h1>
+	<h1>Exam Proctoring</h1>
 
-	<div class="container">
-		<div id="loading-indicator">Loading Model and Camera...</div>
-		<video id="input-video" autoplay muted playsinline></video>
-		<canvas id="output-canvas" width="640px" height="480px"></canvas>
+	<!-- Verification Section (Initially Visible) -->
+	<div id="verification-section">
+		<h2>Identity Verification</h2>
+		<p>Please position your face clearly in the camera view below and click "Verify Identity".</p>
+		<div class="video-container">
+			<!-- Use a separate video element for verification preview -->
+			<video id="verification-video" width="320" height="240" autoplay muted playsinline></video>
+		</div>
+		<button id="verify-button">Verify Identity</button>
+		<p id="verification-status">Status: Waiting for camera...</p>
 	</div>
+
+	<!-- Monitoring Section (Initially Hidden) -->
+	<div id="monitoring-section" class="hidden">
+		<h2>Exam Monitoring Active</h2>
+		<div class="container">
+			<!-- Loading indicator for MediaPipe model -->
+			<div id="loading-indicator">Loading Monitoring Model...</div>
+			<!-- Video element for MediaPipe processing -->
+			<video id="input-video" autoplay muted playsinline></video>
+			<!-- Canvas for drawing overlays -->
+			<canvas id="output-canvas" width="640px" height="480px"></canvas>
+		</div>
+		<p>Monitoring is active. Please remain focused.</p>
+	</div>
+
 
 	<!-- MediaPipe Files (Keep as is) -->
 	<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>

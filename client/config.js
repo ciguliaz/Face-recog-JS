@@ -9,6 +9,7 @@ export const ENABLE_GAZE_CHECK = true;
 
 // --- Server ---
 export const SERVER_ENDPOINT_PROOF = '/api/attention/flag'; // Your backend endpoint
+export const SERVER_ENDPOINT_VERIFY = '/api/verify_identity'; // For initial identity check
 export const USER_ID = 'ciguliaz'; // Hardcoded for now, get dynamically if possible
 
 // --- Thresholds & Timings ---

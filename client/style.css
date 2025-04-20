@@ -3,23 +3,79 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	padding: 20px;
 }
 
+/* Utility class to hide elements */
+.hidden {
+	display: none !important;
+}
+
+#verification-section {
+	border: 1px solid #ccc;
+	padding: 20px;
+	margin-bottom: 20px;
+	text-align: center;
+	background-color: #f9f9f9;
+}
+
+#verification-section .video-container {
+	width: 320px;
+	/* Match video element */
+	height: 240px;
+	margin: 10px auto;
+	border: 1px solid black;
+	background-color: #eee;
+	/* Placeholder background */
+	overflow: hidden;
+	/* Ensure video fits */
+}
+
+#verification-video {
+	display: block;
+	/* Flip for mirror effect */
+	transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+}
+
+#verify-button {
+	padding: 10px 20px;
+	font-size: 1em;
+	cursor: pointer;
+	margin-top: 10px;
+}
+
+#verification-status {
+	margin-top: 15px;
+	font-weight: bold;
+}
+
+
+#monitoring-section {
+	border: 1px solid #ccc;
+	padding: 20px;
+	background-color: #f0f8ff;
+	/* Light blue background */
+}
+
+#monitoring-section h2 {
+	text-align: center;
+}
+
+/* Styles for the monitoring container and elements (from previous version) */
 .container {
 	position: relative;
-	/* Needed for absolute positioning of canvas */
 	width: 640px;
 	height: 480px;
 	border: 1px solid black;
-	/* Optional: just to see the container */
+	margin: 10px auto;
+	/* Center the container */
 }
 
 #input-video {
 	display: block;
-	/* Or display: none; if you want it hidden */
 	width: 100%;
 	height: 100%;
-	/* Flip the video horizontally for a mirror effect (more natural) */
 	transform: scaleX(-1);
 	-webkit-transform: scaleX(-1);
 }
@@ -30,7 +86,6 @@ body {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	/* display: none; /* Uncomment if you don't want to draw overlays */
 }
 
 #loading-indicator {
@@ -43,5 +98,6 @@ body {
 	padding: 10px;
 	border-radius: 5px;
 	z-index: 10;
-	/* Ensure it's above other elements */
+	text-align: center;
+	/* Ensure text is centered */
 }
