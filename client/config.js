@@ -2,15 +2,20 @@
 
 // --- Feature Flags ---
 export const USE_PERFORMANCE_MODE = true; // Client-side processing
-export const SEND_PROOF_TO_SERVER = false; // Send image proof on violation?
+export const SEND_PROOF_TO_SERVER = true; // Send image proof on violation?
 export const ENABLE_MULTI_FACE_CHECK = true;
 export const ENABLE_HEAD_POSE_CHECK = true; // Separate flag if needed
 export const ENABLE_GAZE_CHECK = true;
+export const DRAW_DEBUG_MESH = true; // Set to true to show mesh, false to hide
 
 // --- Server ---
 export const SERVER_ENDPOINT_PROOF = '/api/attention/flag'; // Your backend endpoint
 export const SERVER_ENDPOINT_VERIFY = '/api/verify_identity'; // For initial identity check
 export const USER_ID = 'ciguliaz'; // Hardcoded for now, get dynamically if possible
+// export const TEST5050 = 'https://mock-ai-service-1ec530c9630e.herokuapp.com/test/api/mediapipe/face_verify'; //mock api response for testing, 50% success rate
+export const API_TEST_PIPE_FACEVERIFY = 'http://localhost:6969/test/mediapipe/face_verify'; //mock api response for testing, 50% success rate
+export const API_TEST_PIPE_SENDPROOF = 'http://localhost:6969/test/mediapipe/send_proof'; //mock api response for testing, 50% success rate
+
 
 // --- Thresholds & Timings ---
 export const YAW_THRESHOLD_DEGREES = 30;    // Head turn left/right

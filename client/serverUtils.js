@@ -1,4 +1,4 @@
-import { SERVER_ENDPOINT_PROOF, SERVER_ENDPOINT_VERIFY } from './config.js'; // Import both endpoints
+import { API_TEST_PIPE_FACEVERIFY, API_TEST_PIPE_SENDPROOF, SERVER_ENDPOINT_PROOF } from './config.js'; // Import both endpoints
 
 /**
  * Sends an image to the server for initial identity verification.
@@ -14,11 +14,14 @@ export async function sendVerificationImage(imageBlob, userId) {
 	formData.append('userId', userId);
 
 	try {
-		const response = await fetch(SERVER_ENDPOINT_VERIFY, { // Use the verification endpoint
+		const response = await fetch(API_TEST_PIPE_FACEVERIFY, { // Use the verification endpoint
+			// TODO: change this to use the actual endpoint for actual verification
 			method: 'POST',
 			body: formData,
 			// Add headers like Authorization if required by your backend
 		});
+
+		console.log(response)
 
 		if (!response.ok) {
 			// Attempt to parse error message from server if possible
@@ -85,7 +88,7 @@ export async function captureAndSendProof(imageSource, reason, userId) {
 
 		try {
 			console.log(">>> DEBUG: Sending proof to server...");
-			const response = await fetch(SERVER_ENDPOINT_PROOF, { // Use the proof endpoint
+			const response = await fetch(API_TEST_PIPE_SENDPROOF, { // Use the proof endpoint
 				method: 'POST',
 				body: formData,
 				// Add headers like Authorization if required by your backend

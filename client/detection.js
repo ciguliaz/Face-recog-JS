@@ -65,7 +65,10 @@ export function checkAttentionAndGaze(landmarks) {
 	}
 
 	// --- 2. Estimate Gaze Direction ---
-	if (ENABLE_GAZE_CHECK && !headPoseViolation) { // Only check gaze if head pose seems okay
+	const checkGazeRegardlessOfHeadPose = true; // Set to true to check gaze independently
+
+	if (ENABLE_GAZE_CHECK && (!headPoseViolation || checkGazeRegardlessOfHeadPose)) {
+
 		const leftIrisCenter = landmarks[473];
 		const rightIrisCenter = landmarks[468];
 		const leftEyeOuterCorner = landmarks[33];
@@ -80,13 +83,28 @@ export function checkAttentionAndGaze(landmarks) {
 			const rightEyeWidth = Math.abs(rightEyeOuterCorner.x - rightEyeInnerCorner.x);
 
 			if (leftEyeWidth > 0.01 && rightEyeWidth > 0.01) {
-				const leftIrisRatio = (leftIrisCenter.x - Math.min(leftEyeOuterCorner.x, leftEyeInnerCorner.x)) / leftEyeWidth;
-				const rightIrisRatio = (rightIrisCenter.x - Math.min(rightEyeOuterCorner.x, rightEyeInnerCorner.x)) / rightEyeWidth;
+				const leftIrisPosRelative = leftIrisCenter.x - Math.min(leftEyeOuterCorner.x, leftEyeInnerCorner.x);
+				const rightIrisPosRelative = rightIrisCenter.x - Math.min(rightEyeOuterCorner.x, rightEyeInnerCorner.x);
+
+				const leftIrisRatio = leftIrisPosRelative / leftEyeWidth;
+				const rightIrisRatio = rightIrisPosRelative / rightEyeWidth;
+
+				// Log only occasionally to avoid flooding the console
+				if (Math.random() < 0.03) { // Log about 3% of the time
+					console.log(`>>> Gaze Ratios: L=${leftIrisRatio.toFixed(3)}, R=${rightIrisRatio.toFixed(3)} | Thresholds: [${GAZE_THRESHOLD_RATIO.toFixed(3)}, ${(1.0 - GAZE_THRESHOLD_RATIO).toFixed(3)}]`);
+				}
 
 				if (leftIrisRatio < GAZE_THRESHOLD_RATIO || leftIrisRatio > (1.0 - GAZE_THRESHOLD_RATIO) ||
 					rightIrisRatio < GAZE_THRESHOLD_RATIO || rightIrisRatio > (1.0 - GAZE_THRESHOLD_RATIO)) {
 					gazeViolation = true;
-					reason = "gaze_direction";
+					// --- START CHANGE: Modified Reason Assignment ---
+					// Only set reason if head pose didn't already set one OR if we check gaze independently
+					if (!reason || checkGazeRegardlessOfHeadPose) {
+						reason = "gaze_direction";
+					}
+					// --- END CHANGE ---
+					// Log when the condition is met
+					// console.log(`>>> Gaze VIOLATION detected: L=${leftIrisRatio.toFixed(3)}, R=${rightIrisRatio.toFixed(3)}`);
 				}
 			}
 		}
@@ -94,14 +112,15 @@ export function checkAttentionAndGaze(landmarks) {
 
 	// --- 3. Check Duration for Combined Violations ---
 	let triggerProof = false;
-	const isViolationNow = headPoseViolation || gazeViolation;
+	const isViolationNow = headPoseViolation || gazeViolation; // Use the locally determined violations
 	const now = Date.now();
 
 	if (isViolationNow) {
 		if (!isCurrentlyLookingAway) {
 			isCurrentlyLookingAway = true;
 			lookingAwayStartTime = now;
-			console.log(`>>> DEBUG: Started violation: ${reason}`);
+			// Use the 'reason' determined by head pose or gaze check
+			console.log(`>>> DEBUG: Started violation: ${reason || 'unknown'}`); // Log the specific reason
 		} else {
 			const duration = now - lookingAwayStartTime;
 			if (duration >= LOOKING_AWAY_DURATION_MS) {
@@ -117,6 +136,7 @@ export function checkAttentionAndGaze(landmarks) {
 	}
 
 	// Return the reason ONLY if the duration threshold is also met
+	// Use the 'reason' determined by head pose or gaze check in step 1 or 2
 	return triggerProof ? reason : null;
 }
 

@@ -64,12 +64,12 @@ function onResults(results) {
 		violationReason = checkMultiFace(faceCount, Config.MAX_FACES_ALLOWED);
 		if (violationReason) {
 			triggerProof = true; // Multi-face triggers immediately (or add duration in checkMultiFace)
-			// Draw all faces if multiple detected (optional)
-			if (faceCount > 0) {
+			if (Config.DRAW_DEBUG_MESH && faceCount > 0) { // Only draw if flag is true
 				for (const landmarks of results.multiFaceLandmarks) {
 					try {
+						// Draw red outline for multiple faces if debugging is enabled
 						drawConnectors(canvasCtx, landmarks, FACEMESH_FACE_OVAL, { color: '#FF0000' });
-					} catch (e) { console.error("Draw error", e); }
+					} catch (e) { console.error("Draw error multi-face:", e); }
 				}
 			}
 		}
@@ -82,15 +82,17 @@ function onResults(results) {
 		if (violationReason) {
 			triggerProof = true;
 		}
-		try { // Draw single face landmarks
-			drawConnectors(canvasCtx, landmarks, FACEMESH_TESSELATION, { color: '#C0C0C070', lineWidth: 1 });
-			drawConnectors(canvasCtx, landmarks, FACEMESH_FACE_OVAL, { color: '#E0E0E0' });
-			if (Config.ENABLE_GAZE_CHECK) {
-				drawConnectors(canvasCtx, landmarks, FACEMESH_LEFT_IRIS, { color: '#30FF30' });
-				drawConnectors(canvasCtx, landmarks, FACEMESH_RIGHT_IRIS, { color: '#FF3030' });
+		if (Config.DRAW_DEBUG_MESH) { // Only draw if flag is true
+			try { // Draw single face landmarks
+				drawConnectors(canvasCtx, landmarks, FACEMESH_TESSELATION, { color: '#C0C0C070', lineWidth: 1 });
+				drawConnectors(canvasCtx, landmarks, FACEMESH_FACE_OVAL, { color: '#E0E0E0' });
+				if (Config.ENABLE_GAZE_CHECK) { // Keep gaze drawing dependent on its own flag too
+					drawConnectors(canvasCtx, landmarks, FACEMESH_LEFT_IRIS, { color: '#30FF30' });
+					drawConnectors(canvasCtx, landmarks, FACEMESH_RIGHT_IRIS, { color: '#FF3030' });
+				}
+			} catch (drawError) {
+				console.error(">>> DEBUG: Error drawing single face landmarks:", drawError);
 			}
-		} catch (drawError) {
-			console.error(">>> DEBUG: Error drawing single face landmarks:", drawError);
 		}
 	} else if (!violationReason && faceCount === 0) {
 		// No faces detected (and not a multi-face violation)
