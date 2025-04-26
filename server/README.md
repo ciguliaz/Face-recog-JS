@@ -1,35 +1,52 @@
-# Elysia with Bun runtime
+# Server (Elysia with Bun Runtime)
 
-## Install Bun
-This application require Bun to run
-- For Windows, run this on PowerShell/cmd.exe
+This directory contains the backend server for the Face Attention Checker application, built using the ElysiaJS framework and running on the Bun runtime.
+
+## 1. Install Bun
+
+This application requires the Bun JavaScript runtime.
+
+**Windows:**
+
+Open PowerShell (it's recommended to run as Administrator if you encounter permission issues) and execute:
+
 ```powershell
-powershell -c "irm bun.sh/install.ps1|iex"
+powershell -c "irm bun.sh/install.ps1 | iex"
 ```
-- For macOS/Linux
+
+**macOS / Linux:**
+
+Open your terminal and run:
+
 ```bash
 curl -fsSL https://bun.sh/install | bash
 ```
-Full installation instruction can be found here <br>
-https://bun.sh/docs/installation
 
-You might want to check the link because install command doesn't automatically add it to <b>PATH</b>
-<br>
-To check that Bun was installed successfully, open a new terminal window and run:
-```powershell
+**Verify Installation:**
+
+After installation, **close and reopen** your terminal/PowerShell window. Then, run the following command to confirm Bun is installed and accessible:
+
+```bash
 bun --version
 ```
 
-## Getting Started
-To get started with this application, run this:
+**Important:** The installer might not automatically add Bun to your system's `PATH` environment variable. If the `bun --version` command doesn't work in a new terminal, please refer to the official Bun installation guide for instructions on adding it to your PATH manually:
+[https://bun.sh/docs/installation#how-to-add-your-path](https://bun.sh/docs/installation#how-to-add-your-path)
+
+## 2. Install Dependencies
+
+Once Bun is installed, navigate to this `server` directory in your terminal and install the necessary project dependencies:
+
 ```bash
 bun install
 ```
 
-## Development
-To start the development server run:
+## 3. Run the Development Server
+
+To start the server for development, run:
+
 ```bash
 bun run dev
 ```
 
-Open http://localhost:6969/ with your browser to see the result.
+This will typically start the server on `http://localhost:6969`. Check the terminal output for the exact address. You can open this address in your browser, but the primary interaction will be through the client application.
